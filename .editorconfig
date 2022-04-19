@@ -1,6 +1,6 @@
-# EditorConfig is awesome: https://EditorConfig.org
+# orConfig is awesome: https://orConfig.org
 
-# top-most EditorConfig file
+# top-most orConfig file
 root = true
 
 # Unix-style newlines with a newline ending every file
@@ -11,6 +11,8 @@ end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespace = true
 charset = utf-8
+quote_type = single
+spaces_around_brackets = true
 
 [*.{js,css}]
 indent_style = space
