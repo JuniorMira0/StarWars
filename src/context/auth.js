@@ -7,6 +7,11 @@ export const AuthContext = React.createContext();
 export const AuthProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [filterName, setFilterName] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
 
   const getList = async () => {
     setLoading(true);
@@ -15,10 +20,17 @@ export const AuthProvider = ({ children }) => {
     setData(response);
   };
 
-  const contextValue = { data, getList, loading, setLoading };
+  const contextValue = {
+    data,
+    getList,
+    loading,
+    setLoading,
+    filterName,
+    setFilterName,
+  };
 
   return (
-    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={ contextValue }>{children}</AuthContext.Provider>
   );
 };
 
