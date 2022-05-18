@@ -7,6 +7,7 @@ export const AuthContext = React.createContext();
 export const AuthProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [numericalValue, setNumericalValue] = useState([]);
   const [filterName, setFilterName] = useState({
     filterByName: {
       name: '',
@@ -27,6 +28,8 @@ export const AuthProvider = ({ children }) => {
     setLoading,
     filterName,
     setFilterName,
+    numericalValue,
+    setNumericalValue,
   };
 
   return (

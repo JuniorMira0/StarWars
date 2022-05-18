@@ -3,7 +3,7 @@ import { useAuth } from '../context/auth';
 import './Table.css';
 
 const Table = () => {
-  const { data, getList, loading, setLoading, filterName, setFilterName } = useAuth();
+  const { data, getList, loading, setLoading, filterName, numericalValue } = useAuth();
   console.log(filterName);
 
   useEffect(() => {
@@ -12,10 +12,33 @@ const Table = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const renderMapAPI = () => data.filter((filter) => filter.name
-    .includes(filterName.name))
-    .map((planet, index) => (
-      <tr key={ index }>
+  const FilterNumber = (planet) => {
+    if (numericalValue.length === 0) {
+      return true;
+    }
+    const result = [];
+    numericalValue.forEach((element) => {
+      if (element.comparison === 'maior que') {
+        result.push(Number(planet[element.column]) > Number(element.number));
+      }
+
+      if (element.comparison === 'menor que') {
+        result.push(Number(planet[element.column]) < Number(element.number));
+      }
+
+      if (element.comparison === 'igual a') {
+        result.push(Number(planet[element.column]) === Number(element.number));
+      }
+    });
+    return result.every((filter) => filter);
+  };
+
+  const renderMapAPI = () => data
+    .filter((planet) => FilterNumber(planet))
+    .filter((filter) => filter.name
+      .includes(filterName.filterByName.name))
+    .map((planet) => (
+      <tr key={ planet.name }>
         <td>{planet.name}</td>
         <td>{planet.rotation_period}</td>
         <td>{planet.orbital_period}</td>
@@ -34,16 +57,6 @@ const Table = () => {
 
   return (
     <div className="content">
-      <label htmlFor="input-filterName">
-        <input
-          type="text"
-          id="input-filterName"
-          onChange={ ({ target }) => setFilterName({ name: target.value }) }
-          value={ filterName.name }
-          data-testid="name-filter"
-          placeholder="Filtre pelo nome"
-        />
-      </label>
       <table className="table table-hover table-dark custom-table">
         <thead>
           <tr>
