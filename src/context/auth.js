@@ -8,6 +8,10 @@ export const AuthProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [numericalValue, setNumericalValue] = useState([]);
+  const [order, setOrder] = useState({
+    column: 'population',
+    sort: 'ASC',
+  });
   const [filterName, setFilterName] = useState({
     filterByName: {
       name: '',
@@ -15,14 +19,20 @@ export const AuthProvider = ({ children }) => {
   });
 
   const getList = async () => {
+    const n = -1;
     setLoading(true);
     const response = await planetsAPI();
 
-    setData(response);
+    const sortOrder = response.sort((a, b) => (a.name > b.name ? 1 : n));
+
+    setData(sortOrder);
   };
 
   const contextValue = {
     data,
+    setData,
+    order,
+    setOrder,
     getList,
     loading,
     setLoading,
